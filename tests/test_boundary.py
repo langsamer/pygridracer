@@ -36,3 +36,14 @@ def test_tb_crash_2():
     assert p_new not in track
     cp = track.crash_position(p_old, p_new)
     assert cp.x == 2
+    assert cp.y == 2
+
+
+def test_tb_crash_3():
+    p_old = Point(1, 1)
+    p_new = Point(1, 3)
+    track = TrackBoundary((0, 0), (2, 2))
+    assert p_new not in track
+    cp = track.crash_position(p_old, p_new)
+    assert cp.x == 1
+    assert cp.y == 2

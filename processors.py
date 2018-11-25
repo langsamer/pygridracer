@@ -1,4 +1,5 @@
 import esper
+from math import trunc
 from utils import Rectangle
 from components import *
 
@@ -32,6 +33,7 @@ class TrackBoundary(Rectangle):
         super().__init__(top_left[0], top_left[1], bottom_right[0], bottom_right[1])
 
     def _extrapolate(self, oldpos, newpos):
+        # TODO: allow for newpos.x == oldpos.x (i.e. vertical movement)
         m = (newpos.y - oldpos.y) / (newpos.x - oldpos.x)
         cross_y0 = oldpos.y + m * (self.x0 - oldpos.x)
         cross_y1 = oldpos.y + m * (self.x1 - oldpos.x)
@@ -55,8 +57,8 @@ class TrackBoundary(Rectangle):
         with the edges for the track."""
         if oldpos in self and newpos not in self:
             crashpos = self._extrapolate(oldpos, newpos)[0]
-            newpos.x = crashpos[0]
-            newpos.y = crashpos[1]
+            newpos.x = trunc(crashpos[0] + 0.5)
+            newpos.y = trunc(crashpos[1] + 0.5)
         return newpos
 
 
